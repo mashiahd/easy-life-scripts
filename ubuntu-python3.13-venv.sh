@@ -12,17 +12,34 @@ fi
 # Path to the virtual environment
 VENV_PATH=$1
 
-echo "Updating package list..."
-sudo apt update -qq
+# Function to check if Python 3.13 is installed
+function check_python_version {
+  if python3.13 --version &> /dev/null; then
+    echo "Python 3.13 is already installed."
+    return 0
+  else
+    echo "Python 3.13 is not installed."
+    return 1
+  fi
+}
 
-echo "Installing software-properties-common..."
-sudo apt install -y -qq software-properties-common
+# Check if Python 3.13 is installed
+if ! check_python_version; then
+  echo "Updating package list..."
+  sudo apt update -qq
 
-echo "Adding deadsnakes PPA..."
-sudo add-apt-repository -y ppa:deadsnakes/ppa > /dev/null
+  echo "Installing software-properties-common..."
+  sudo apt install -y -qq software-properties-common
 
-echo "Updating package list again..."
-sudo apt update -qq
+  echo "Adding deadsnakes PPA..."
+  sudo add-apt-repository -y ppa:deadsnakes/ppa > /dev/null
+
+  echo "Updating package list again..."
+  sudo apt update -qq
+
+  echo "Installing Python 3.13..."
+  sudo apt install -y -qq python3.13
+fi
 
 echo "Creating virtual environment at $VENV_PATH..."
 python3.13 -m venv "$VENV_PATH/venv" --without-pip

@@ -59,4 +59,12 @@ rm get-pip.py
 echo "Verifying pip installation..."
 pip --version
 
+# Check if requirements.txt exists in the git project directory
+if [ -f "$VENV_PATH/requirements.txt" ]; then
+  echo "requirements.txt found, installing packages..."
+  pip install -r "$VENV_PATH/requirements.txt"
+else
+  echo "No requirements.txt found, skipping package installation."
+fi
+
 echo "Virtual environment setup complete at $VENV_PATH."

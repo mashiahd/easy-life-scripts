@@ -5,7 +5,7 @@ set -e
 
 # Check if a path argument is provided
 if [ -z "$1" ]; then
-  echo "Usage: $0 <path_to_venv>"
+  echo "Usage: $0 <path_to_venv> (the dir to create venv in)"
   exit 1
 fi
 
